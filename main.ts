@@ -76,7 +76,7 @@ namespace APDS9960 {
 
 
     function read8(cmd: number): number {
-        let i2cbuf = pins.i2cReadBuffer(APDS9960_ADDRESS, pins.sizeOf(NumberFormat.UInt8LE) * 7, false)
+        let i2cbuf = pins.i2cReadBuffer(APDS9960_ADDRESS, pins.sizeOf(NumberFormat.UInt16LE) * 7, false)
         let result = i2cbuf[0] << 8;
         result |= i2cbuf[1];
         return result
