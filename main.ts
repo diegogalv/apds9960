@@ -69,8 +69,8 @@ namespace APDS9960 {
         let buf = pins.createBuffer(2);
         // basic.pause(10)
         // basic.pause(10)
-        buf[1] = command >> 8
-        buf[0] = command & 0xFF
+        buf[0] = command >> 8
+        buf[1] = command & 0xFF
         return pins.i2cWriteBuffer(APDS9960_ADDRESS, buf)
     }
 
