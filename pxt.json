@@ -4,7 +4,8 @@
     "dependencies": {
         "core": "*",
         "radio": "*",
-        "microphone": "*"
+        "microphone": "*",
+        "APDS9930": "github:makecode-extensions/apds9930#v1.1.0"
     },
     "files": [
         "main.blocks",

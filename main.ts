@@ -55,80 +55,117 @@ const APDS9960_GFIFO_D = 0xFD
 const APDS9960_GFIFO_L = 0xFE
 const APDS9960_GFIFO_R = 0xFF
 
-
 /**
- * APDS9930 mudule
+ * set APDS9930's reg
  */
-//% weight=100 color=#102010 icon="\uf0eb" block="APDS9960"
-namespace APDS9960 {
+function set2Reg(command: number): number {
+    let buf = pins.createBuffer(2);
+    // basic.pause(10)
+    // basic.pause(10)
+    buf[1] = command >> 8
+    buf[0] = command & 0xFF
+    return pins.i2cWriteBuffer(APDS9960_ADDRESS, buf)
+}
 
-    /**
-     * set APDS9930's reg
-     */
-    function setReg(command: number) {
-        let buf = pins.createBuffer(2);
-        // basic.pause(10)
-        // basic.pause(10)
-        buf[0] = command >> 8
-        buf[1] = command & 0xFF
-        return pins.i2cWriteBuffer(APDS9960_ADDRESS, buf)
-    }
+function setReg(reg: number, dat: number): void {
+    let _wbuf = pins.createBuffer(2);
+    _wbuf[0] = reg | 0xFF;
+    _wbuf[1] = dat;
+    pins.i2cWriteBuffer(APDS9960_ADDRESS, _wbuf);
+}
+
+function read_buf_8(cmd: number): number {
+    let i2cbuf = pins.i2cReadBuffer(APDS9960_ADDRESS, pins.sizeOf(NumberFormat.UInt8BE) * 7, false)
+    let result = i2cbuf[0] << 8;
+    result |= i2cbuf[1];
+    //basic.pause(10)
+    return result
+
+}
 
 
-    function read8(cmd: number): number {
-        let i2cbuf = pins.i2cReadBuffer(APDS9960_ADDRESS, pins.sizeOf(NumberFormat.UInt16LE) * 7, false)
-        let result = i2cbuf[0] << 8;
-        result |= i2cbuf[1];
-        return result
-    }
+
+function getReg(reg: number): number {
+    pins.i2cWriteNumber(APDS9960_ADDRESS, reg, NumberFormat.UInt8BE);
+    return pins.i2cReadNumber(APDS9960_ADDRESS, NumberFormat.UInt8BE);
+    
+}
+
+
     /**
      * Power On
      */
 
-    function PowerOn() {
-        setReg(APDS9960_ENABLE)
-        basic.pause(3)
-    }
+function PowerOn() {
+    let t = getReg(APDS9960_ENABLE)
+    t &= 0b00000001
+    setReg(APDS9960_ENABLE, t)
+    basic.pause(3)
+}
     /**
      * ALS Enable
      * @param en is enable/disable ALS, eg: true
      */
 
-    function ALSEnable() {
-        setReg(0x82)
-        basic.pause(3)
-    }
-
-    /**
-     * get ALS
-     */
-    //% blockId="APDS9960_GET_ALS" block="get ALS"
-    //% weight=201 blockGap=8
-    export function getALS(): number {
-        let r = read8(setReg(APDS9960_RDATAL));
-        let g = read8(setReg(APDS9960_GDATAL));
-        let b = read8(setReg(APDS9960_BDATAL));
-
-        /* This only uses RGB ... how can we integrate clear or calculate lux */
-        /* based exclusively on clear since this might be more reliable?      */
-        let illuminance = (-0.32466 * r) + (1.57837 * g) + (-0.73191 * b);
-        return illuminance;
-    }
+function ALSEnable(en: boolean = true) {
+    let t = getReg(APDS9960_ENABLE)
+    t &= 0b00000010
+    //if (en) t |= 2
+    setReg(APDS9960_ENABLE, t)
+    basic.pause(10)
+}
+function WaitEnable(en: boolean = true) {
+    let t = getReg(APDS9960_ENABLE)
+    t &= 0b00001000
+    //if (en) t |= 4
+    setReg(APDS9960_ENABLE, t)
+    basic.pause(10)
+}
 
     /**
      * Initialize
      */
     //% blockId="APDS9960_INIT" block="APDS9960 Initialize"
     //% weight=210 blockGap=8
-    export function init() {
-        setReg(APDS9960_ENABLE)
-        basic.pause(3)
-        setReg(APDS9960_ATIME)
-        setReg(APDS9960_WTIME)
-        setReg(APDS9960_CONTROL)
-        basic.pause(3)
-        ALSEnable()
-        PowerOn()
-    }
-
+function init() {
+    PowerOn()
+    ALSEnable()
+    setReg(APDS9960_ENABLE, 0)
+    setReg(APDS9960_ATIME, 0xFF)
+    setReg(APDS9960_WTIME, 0xFF)
+    setReg(APDS9960_PERS, 0)
+    //setReg(APDS9960_CONFIG1, 0X40)
+    setReg(APDS9960_CONTROL, 0)  
+    //WaitEnable(true)
+    basic.pause(10)
 }
+
+/**
+* APDS9930 mudule
+*/
+init();
+
+basic.forever(()=>{
+    let l = getReg(APDS9960_ENABLE);
+    let m = getReg(APDS9960_STATUS);
+    let c = getReg(APDS9960_CDATAL);
+    let r = getReg(APDS9960_RDATAL);
+    let g = getReg(APDS9960_GDATAL);
+    let b = getReg(APDS9960_BDATAL);
+    
+
+
+    //serial.writeNumber(r)
+    //basic.pause(100)
+
+
+    //}
+    /* This only uses RGB ... how can we integrate clear or calculate lux */
+    /* based exclusively on clear since this might be more reliable?      */
+    //let illuminance = (-0.32466 * r) + (1.57837 * g) + (-0.73191 * b);
+    basic.showNumber(l)
+    //basic.pause(1000)
+    //basic.showNumber(g)
+})
+    
+
