@@ -87,7 +87,7 @@ function init_apds() {
     //basic.pause(10)
     //PERS_REG()
     //basic.pause(10)
-    //GAIN();
+    
     ;
     //WaitEnable(true)
 }
@@ -98,6 +98,7 @@ namespace CIP_APDS9960 {
     let illuminance = 0
     ALSEnable();
     PowerOn()
+    GAIN();
     /**
      * Returns a number describing the lux 
     */
