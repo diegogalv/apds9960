@@ -91,22 +91,22 @@ namespace CIP_APDS9960 {
     //% block="leer lux"
     export function leer_lux(): number {
         //let G = getReg(APDS9960_CONTROL)
-        let TL = get2Reg_lux(APDS9960_AILTIL);
-        let TH = get2Reg_lux(APDS9960_AIHTH);
-        let LH = get2Reg_lux(APDS9960_AILTH);
-        let HL = get2Reg_lux(APDS9960_AIHTL);
+        let TL = get_Reg_lux(APDS9960_AILTIL);
+        let TH = get_Reg_lux(APDS9960_AIHTH);
+        let LH = get_Reg_lux(APDS9960_AILTH);
+        let HL = get_Reg_lux(APDS9960_AIHTL);
         let l = get_Reg_lux(APDS9960_STATUS);
         let c = get_Reg_lux(APDS9960_CDATAL);
         basic.pause(10)
         if ((c >= TH + LH) || (c <= TL + HL)) {
-            let r = get2Reg_lux(APDS9960_RDATAL);
-            let g = get2Reg_lux(APDS9960_GDATAL);
-            let b = get2Reg_lux(APDS9960_BDATAL);
+            let r = get_Reg_lux(APDS9960_RDATAL);
+            let g = get_Reg_lux(APDS9960_GDATAL);
+            let b = get_Reg_lux(APDS9960_BDATAL);
             illuminance = (-0.32466 * r) + (1.57837 * g) + (-0.73191 * b);
             illuminance = illuminance / 255
             Math.abs(illuminance)
         }
-    return l
+    return illuminance
 
     }
 }
