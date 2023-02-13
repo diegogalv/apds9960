@@ -111,7 +111,7 @@ function init_apds() {
     //basic.pause(10)
     ALSEnable()
     basic.pause(10)
-    PowerOn();
+    //PowerOn();
     //WaitEnable(true)
 }
 let _wbuf = pins.createBuffer(2);
