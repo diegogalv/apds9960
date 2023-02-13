@@ -77,11 +77,11 @@ function GAIN(en: boolean = true) {
 function init_apds() {
     //ATIME(256 - 8)
     //setReg(APDS9960_ENABLE, 0)
-    //set_Reg_lux(APDS9960_ATIME, 0xFF)
+    //
     //basic.pause(10)
-    //set_Reg_lux(APDS9960_WTIME, 0xFF)
+    //
     //setReg(APDS9960_PERS, 0x22)
-    //set_Reg_lux(APDS9960_CONFIG1, 0X40)
+    //
     //setReg(APDS9930_PPULSE, 8)
     //setReg(APDS9960_CONTROL, 0x2C)
     //basic.pause(10)
@@ -96,6 +96,9 @@ let _wbuf = pins.createBuffer(2);
 namespace CIP_APDS9960 {
     
     let illuminance = 0
+    set_Reg_lux(APDS9960_ATIME, 0xFF)
+    set_Reg_lux(APDS9960_WTIME, 0xFF)
+    //set_Reg_lux(APDS9960_CONFIG1, 0X40)
     ALSEnable();
     PowerOn()
     GAIN();
