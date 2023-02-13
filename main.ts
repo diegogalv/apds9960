@@ -110,7 +110,7 @@ function init_apds() {
     basic.pause(10)
     GAIN();
     //basic.pause(10)
-    ALSEnable(true)
+    ALSEnable()
     basic.pause(10)
     PowerOn();
     //WaitEnable(true)
