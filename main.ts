@@ -9,11 +9,7 @@ const APDS9960_AIHTH = 0x87
 const APDS9960_PILT = 0x89
 const APDS9960_PIHT = 0x8B
 const APDS9960_PERS = 0x8C
-const APDS9960_CONFIG1 = 0x8D
-const APDS9960_PPULSE = 0x8E
 const APDS9960_CONTROL = 0x8F
-const APDS9960_CONFIG2 = 0x90
-const APDS9960_ID = 0x92
 const APDS9960_STATUS = 0x93
 const APDS9960_CDATAL = 0x94
 const APDS9960_CDATAH = 0x95
@@ -129,17 +125,17 @@ namespace CIP_APDS9960 {
         let LH = get2Reg_lux(APDS9960_AILTH);
         let HL = get2Reg_lux(APDS9960_AIHTL);
         let l = get2Reg_lux(APDS9960_STATUS);
-        let c = get2Reg_lux(APDS9960_BDATAL);
+        let c = get2Reg_lux(APDS9960_CDATAH);
         basic.pause(10)
         if ((c >= TH + LH) || (c <= TL + HL)) {
-            let r = get2Reg_lux(APDS9960_RDATAL);
-            let g = get2Reg_lux(APDS9960_GDATAL);
-            let b = get2Reg_lux(APDS9960_BDATAL);
+            let r = get2Reg_lux(APDS9960_RDATAH);
+            let g = get2Reg_lux(APDS9960_GDATAH);
+            let b = get2Reg_lux(APDS9960_BDATAH);
             illuminance = (-0.32466 * r) + (1.57837 * g) + (-0.73191 * b);
             illuminance = illuminance / 255
             if (illuminance < 0) illuminance = Math.abs(illuminance)
         }
-    return c
+    return illuminance
 
     }
 }
