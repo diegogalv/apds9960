@@ -71,8 +71,8 @@ function PowerOn() {
 
 function ALSEnable(en: boolean = true) {
     let t = get_Reg_lux(APDS9960_ENABLE)
-    t &= 0B11111110
-    if (en) t |= 15
+    t &= 0B11101110
+    if (en) t |= 11
     set_Reg_lux(APDS9960_ENABLE, t)
     basic.pause(3)
 }
@@ -133,7 +133,7 @@ namespace CIP_APDS9960 {
         let LH = get2Reg_lux(APDS9960_AILTH);
         let HL = get2Reg_lux(APDS9960_AIHTL);
         let l = get2Reg_lux(APDS9960_STATUS);
-        let c = getReg_int(APDS9960_CDATAL);
+        let c = get2Reg_lux(APDS9960_CDATAL);
         basic.pause(10)
         if ((c >= TH + LH) || (c <= TL + HL)) {
             let r = get2Reg_lux(APDS9960_RDATAL);
@@ -143,7 +143,7 @@ namespace CIP_APDS9960 {
             illuminance = illuminance / 255
             if (illuminance < 0) illuminance = Math.abs(illuminance)
         }
-    return c
+    return l
 
     }
 }
