@@ -71,7 +71,7 @@ function PowerOn() {
 
 function ALSEnable(en: boolean = true) {
     let t = get2Reg_lux(APDS9960_ENABLE)
-    t &= 0x3F
+    t &= 0x01
     if (en) t |= 13
     set_Reg_lux(APDS9960_ENABLE, t)
     basic.pause(3)
