@@ -96,8 +96,8 @@ let _wbuf = pins.createBuffer(2);
 namespace CIP_APDS9960 {
     
     let illuminance = 0
-    set_Reg_lux(APDS9960_ATIME, 0xFF)
-    set_Reg_lux(APDS9960_WTIME, 0xFF)
+    //set_Reg_lux(APDS9960_ATIME, 0xFF)
+    //set_Reg_lux(APDS9960_WTIME, 0xFF)
     //set_Reg_lux(APDS9960_CONFIG1, 0X40)
     ALSEnable();
     PowerOn()
@@ -124,7 +124,7 @@ namespace CIP_APDS9960 {
             illuminance = illuminance / 255
             Math.abs(illuminance)
         }
-    return illuminance
+    return l
 
     }
 }
