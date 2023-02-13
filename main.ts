@@ -74,20 +74,12 @@ function GAIN(en: boolean = true) {
 }
 
 
-function PERS_REG(en: boolean = true) {
-    let t = get_Reg_lux(APDS9960_PERS)
-    t &= 0x02
-    if (en) t |= 1
-    set_Reg_lux(APDS9960_PERS, t)
-    basic.pause(3)
-}
-
 function init_apds() {
     //ATIME(256 - 8)
     //setReg(APDS9960_ENABLE, 0)
-    set_Reg_lux(APDS9960_ATIME, 0xFF)
-    basic.pause(10)
-    set_Reg_lux(APDS9960_WTIME, 0xFF)
+    //set_Reg_lux(APDS9960_ATIME, 0xFF)
+    //basic.pause(10)
+    //set_Reg_lux(APDS9960_WTIME, 0xFF)
     //setReg(APDS9960_PERS, 0x22)
     //set_Reg_lux(APDS9960_CONFIG1, 0X40)
     //setReg(APDS9930_PPULSE, 8)
@@ -96,8 +88,7 @@ function init_apds() {
     //PERS_REG()
     //basic.pause(10)
     //GAIN();
-    ALSEnable();
-    PowerOn();
+    ;
     //WaitEnable(true)
 }
 let _wbuf = pins.createBuffer(2);
@@ -105,7 +96,8 @@ let _wbuf = pins.createBuffer(2);
 namespace CIP_APDS9960 {
     
     let illuminance = 0
-    init_apds();
+    ALSEnable();
+    PowerOn()
     /**
      * Returns a number describing the lux 
     */
