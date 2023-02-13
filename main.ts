@@ -109,7 +109,7 @@ function init_apds() {
     basic.pause(10)
     GAIN();
     //basic.pause(10)
-    ALSEnable()
+    ALSEnable(true)
     basic.pause(10)
     PowerOn();
     //WaitEnable(true)
@@ -142,7 +142,7 @@ namespace CIP_APDS9960 {
             illuminance = illuminance / 255
             if (illuminance < 0) illuminance = Math.abs(illuminance)
         }
-    return c
+    return l
 
     }
 }
