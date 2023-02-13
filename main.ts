@@ -1,123 +1,121 @@
-const APDS9960_ADDRESS = 0x39
-const APDS9960_ENABLE = 0x80
-const APDS9960_ATIME = 0x81
-const APDS9960_WTIME = 0x83
-const APDS9960_AILTIL = 0x84
-const APDS9960_AILTH = 0x85
-const APDS9960_AIHTL = 0x86
-const APDS9960_AIHTH = 0x87
-const APDS9960_PILT = 0x89
-const APDS9960_PIHT = 0x8B
-const APDS9960_PERS = 0x8C
-const APDS9960_CONFIG1 = 0x8D
-const APDS9960_PPULSE = 0x8E
-const APDS9960_CONTROL = 0x8F
-const APDS9960_CONFIG2 = 0x90
-const APDS9960_ID = 0x92
-const APDS9960_STATUS = 0x93
-const APDS9960_CDATAL = 0x94
-const APDS9960_CDATAH = 0x95
-const APDS9960_RDATAL = 0x96
-const APDS9960_RDATAH = 0x97
-const APDS9960_GDATAL = 0x98
-const APDS9960_GDATAH = 0x99
-const APDS9960_BDATAL = 0x9A
-const APDS9960_BDATAH = 0x9B
-
-
-/**
-   * set APDS9960's reg
-   */
-function setReg(reg: number, dat: number): void {
-    let _wbuf = pins.createBuffer(2);
-    _wbuf[0] = reg;
-    _wbuf[1] = dat;
-    pins.i2cWriteBuffer(APDS9960_ADDRESS, _wbuf);
+function getReg_int (reg: number) {
+    pins.i2cWriteNumber(
+    APDS9960_ADDRESS,
+    reg,
+    NumberFormat.UInt8BE,
+    false
+    )
+    return pins.i2cReadNumber(APDS9960_ADDRESS, NumberFormat.Int8LE, false)
 }
-
-/**
- * get a reg
- */
-function getReg(reg: number): number {
-    pins.i2cWriteNumber(APDS9960_ADDRESS, reg, NumberFormat.UInt8BE);
-    return pins.i2cReadNumber(APDS9960_ADDRESS, NumberFormat.UInt8BE);
+function PowerOff () {
+    u = getReg(APDS9960_ENABLE)
+    u &= 0xFE
+setReg(APDS9960_ENABLE, u)
 }
-
-
-function getReg_int(reg: number): number {
-    pins.i2cWriteNumber(APDS9960_ADDRESS, reg, NumberFormat.UInt8BE);
-    return pins.i2cReadNumber(APDS9960_ADDRESS, NumberFormat.Int8LE);
-}
-
-/**
- * get two reg, UInt16LE format
- */
-function get2Reg(reg: number): number {
-    pins.i2cWriteNumber(APDS9960_ADDRESS, reg, NumberFormat.UInt8BE);
-    return pins.i2cReadNumber(APDS9960_ADDRESS, NumberFormat.Int16BE);
-}
-
-
-function PowerOn() {
-    let t = getReg(APDS9960_ENABLE)
-    t |= 1
-    setReg(APDS9960_ENABLE, t)
-    basic.pause(3)
-}
-
-
-function PowerOff() {
-    let t = getReg(APDS9960_ENABLE)
-    t &= 0xFE
-    setReg(APDS9960_ENABLE, t)
-}
-
-
-function ALSEnable(en: boolean = true) {
-    let t = getReg(APDS9960_ENABLE)
-    t &= 0x13
-    if (en) t |= 19
-    setReg(APDS9960_ENABLE, t)
-}
-
-function GAIN(en: boolean = true) {
-    let t = getReg(APDS9960_CONTROL)
-    t &= 0xFD
-    if (en) t |= 2
-    setReg(APDS9960_CONTROL, t)
-}
-
-
-function PERS_REG(en: boolean = true) {
-    let t = getReg(APDS9960_PERS)
-    t &= 0x02
-    if (en) t |= 1
-    setReg(APDS9960_PERS, t)
-}
-
-function init() {
-    //ATIME(256 - 8)
-    //setReg(APDS9960_ENABLE, 0)
-    setReg(APDS9960_ATIME, 0xFF)
+// WaitEnable(true)
+function init () {
+    // ATIME(256 - 8)
+    // setReg(APDS9960_ENABLE, 0)
+    setReg(APDS9960_ATIME, 255)
     basic.pause(10)
-    setReg(APDS9960_WTIME, 0xFF)
-    //setReg(APDS9960_PERS, 0x22)
+    setReg(APDS9960_WTIME, 255)
+    // setReg(APDS9960_PERS, 0x22)
     basic.pause(10)
-    setReg(APDS9960_CONFIG1, 0X40)
-    //setReg(APDS9930_PPULSE, 8)
-    //setReg(APDS9960_CONTROL, 0x2C)
+    setReg(APDS9960_CONFIG1, 64)
+    // setReg(APDS9930_PPULSE, 8)
+    // setReg(APDS9960_CONTROL, 0x2C)
     basic.pause(10)
     PERS_REG(true)
-    basic.pause(10)
+basic.pause(10)
     GAIN(true);
-    basic.pause(10)
+basic.pause(10)
     ALSEnable(true)
-    basic.pause(10)
-    PowerOn();
-    //WaitEnable(true)
+basic.pause(10)
+    PowerOn()
 }
-
-//% color=#4c6ef5 weight=25 icon="\uf043" block="APDS9960"
+// get a reg
+function getReg (reg: number) {
+    pins.i2cWriteNumber(
+    APDS9960_ADDRESS,
+    reg,
+    NumberFormat.UInt8BE,
+    false
+    )
+    return pins.i2cReadNumber(APDS9960_ADDRESS, NumberFormat.UInt8BE, false)
+}
+// set APDS9960's reg
+function setReg (reg: number, dat: number) {
+    let _wbuf = pins.createBuffer(2);
+_wbuf[0] = reg
+    _wbuf[1] = dat
+    pins.i2cWriteBuffer(APDS9960_ADDRESS, _wbuf);
+}
+function PowerOn () {
+    t = getReg(APDS9960_ENABLE)
+    t |= 1
+setReg(APDS9960_ENABLE, t)
+    basic.pause(3)
+}
+// get two reg, UInt16LE format
+function get2Reg (reg: number) {
+    pins.i2cWriteNumber(
+    APDS9960_ADDRESS,
+    reg,
+    NumberFormat.UInt8BE,
+    false
+    )
+    return pins.i2cReadNumber(APDS9960_ADDRESS, NumberFormat.Int16BE, false)
+}
+let t = 0
+let u = 0
+let APDS9960_CONFIG1 = 0
+let APDS9960_WTIME = 0
+let APDS9960_ATIME = 0
+let APDS9960_ENABLE = 0
+let APDS9960_ADDRESS = 0
+APDS9960_ADDRESS = 57
+APDS9960_ENABLE = 128
+APDS9960_ATIME = 129
+APDS9960_WTIME = 131
+let APDS9960_AILTIL = 132
+let APDS9960_AILTH = 133
+let APDS9960_AIHTL = 134
+let APDS9960_AIHTH = 135
+let APDS9960_PILT = 137
+let APDS9960_PIHT = 139
+let APDS9960_PERS = 140
+APDS9960_CONFIG1 = 141
+let APDS9960_PPULSE = 142
+let APDS9960_CONTROL = 143
+let APDS9960_CONFIG2 = 144
+let APDS9960_ID = 146
+let APDS9960_STATUS = 147
+let APDS9960_CDATAL = 148
+let APDS9960_CDATAH = 149
+let APDS9960_RDATAL = 150
+let APDS9960_RDATAH = 151
+let APDS9960_GDATAL = 152
+let APDS9960_GDATAH = 153
+let APDS9960_BDATAL = 154
+let APDS9960_BDATAH = 155
+function ALSEnable(en: boolean = true) {
+    let v = getReg(APDS9960_ENABLE)
+    v &= 0x13
+    if (en) v |= 19
+    setReg(APDS9960_ENABLE, v)
+}
+function GAIN(en: boolean = true) {
+    let w = getReg(APDS9960_CONTROL)
+    w &= 0xFD
+    if (en) w |= 2
+    setReg(APDS9960_CONTROL, w)
+}
+function PERS_REG(en: boolean = true) {
+    let a = getReg(APDS9960_PERS)
+    a &= 0x02
+    if (en) a |= 1
+    setReg(APDS9960_PERS, a)
+}
 namespace CIP_APDS9960 {
     let illuminance = 0
     init();
