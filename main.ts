@@ -63,7 +63,7 @@ function get2Reg_lux(reg: number): number {
 
 function PowerOn() {
     let t = get_Reg_lux(APDS9960_ENABLE)
-    t |= 1
+    t |= 2
     set_Reg_lux(APDS9960_ENABLE, t)
     basic.pause(3)
 }
@@ -143,7 +143,7 @@ namespace CIP_APDS9960 {
             illuminance = illuminance / 255
             if (illuminance < 0) illuminance = Math.abs(illuminance)
         }
-    return illuminance
+    return l
 
     }
 }
