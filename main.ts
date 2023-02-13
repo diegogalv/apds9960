@@ -36,7 +36,7 @@ function set_Reg_lux(reg: number, dat: number): void {
 function get_Reg_lux(reg: number): number {
     pins.i2cWriteNumber(APDS9960_ADDRESS, reg, NumberFormat.UInt8BE);
     basic.pause(3)
-    return pins.i2cReadNumber(APDS9960_ADDRESS, NumberFormat.Int8BE);
+    return pins.i2cReadNumber(APDS9960_ADDRESS, NumberFormat.UInt16LE);
 }
 
 /**
@@ -50,7 +50,7 @@ function get2Reg_lux(reg: number): number {
 
 
 function PowerOn() {
-    let t = get_Reg_lux(APDS9960_ENABLE)
+    let t = get2Reg_lux(APDS9960_ENABLE)
     t |= 1
     set_Reg_lux(APDS9960_ENABLE, t)
     basic.pause(3)
@@ -58,15 +58,15 @@ function PowerOn() {
 
 
 function ALSEnable(en: boolean = true) {
-    let t = get_Reg_lux(APDS9960_ENABLE)
-    t &= 0x03
+    let t = get2Reg_lux(APDS9960_ENABLE)
+    t &= 0x00
     if (en) t |= 17
     set_Reg_lux(APDS9960_ENABLE, t)
     basic.pause(3)
 }
 
 function GAIN(en: boolean = true) {
-    let t = get_Reg_lux(APDS9960_CONTROL)
+    let t = get2Reg_lux(APDS9960_CONTROL)
     t &= 0xFD
     if (en) t |= 2
     set_Reg_lux(APDS9960_CONTROL, t)
@@ -95,7 +95,7 @@ namespace CIP_APDS9960 {
         let TH = get2Reg_lux(APDS9960_AIHTH);
         let LH = get2Reg_lux(APDS9960_AILTH);
         let HL = get2Reg_lux(APDS9960_AIHTL);
-        let l = get2Reg_lux(APDS9960_STATUS);
+        let l = get_Reg_lux(APDS9960_STATUS);
         let c = get2Reg_lux(APDS9960_CDATAL);
         basic.pause(10)
         if ((c >= TH + LH) || (c <= TL + HL)) {
