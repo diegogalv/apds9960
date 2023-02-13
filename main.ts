@@ -109,8 +109,8 @@ function init_apds() {
     PERS_REG()
     basic.pause(10)
     GAIN();
-    basic.pause(10)
-    ALSEnable()
+    //basic.pause(10)
+    //ALSEnable()
     basic.pause(10)
     PowerOn();
     //WaitEnable(true)
