@@ -62,7 +62,7 @@ function get2Reg_lux(reg: number): number {
 
 function PowerOn() {
     let t = get_Reg_lux(APDS9960_ENABLE)
-    t |= 1
+    t &= 0xFE
     set_Reg_lux(APDS9960_ENABLE, t)
     basic.pause(3)
 }
@@ -109,9 +109,9 @@ function init_apds() {
     basic.pause(10)
     GAIN();
     //basic.pause(10)
-    ALSEnable()
+    //ALSEnable()
     basic.pause(10)
-    //PowerOn();
+    PowerOn();
     //WaitEnable(true)
 }
 let _wbuf = pins.createBuffer(2);
