@@ -29,9 +29,9 @@ const APDS9960_BDATAH = 0x9B
    * set APDS9960's reg
    */
 function set_Reg_lux(reg: number, dat: number): void {
-    let _wbuf = pins.createBuffer(2);
-    _wbuf[0] = dat;
-    _wbuf[1] = reg;
+    
+    _wbuf[0] = reg;
+    _wbuf[1] = dat;
     pins.i2cWriteBuffer(APDS9960_ADDRESS, _wbuf);
 }
 
@@ -120,9 +120,10 @@ function init_apds() {
     PowerOn();
     //WaitEnable(true)
 }
-
+let _wbuf = pins.createBuffer(2);
 //% color=#4c6ef5 weight=25 icon="\uf043" block="APDS9960"
 namespace CIP_APDS9960 {
+    
     let illuminance = 0
     init_apds();
     /**
