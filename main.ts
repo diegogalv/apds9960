@@ -48,7 +48,7 @@ function get_Reg_lux(reg: number): number {
 function getReg_int(reg: number): number {
     pins.i2cWriteNumber(APDS9960_ADDRESS, reg, NumberFormat.UInt8BE);
     basic.pause(3)
-    return pins.i2cReadNumber(APDS9960_ADDRESS, NumberFormat.Int32LE);
+    return pins.i2cReadNumber(APDS9960_ADDRESS, NumberFormat.Int16LE);
 }
 
 /**
@@ -71,7 +71,7 @@ function PowerOn() {
 
 function ALSEnable(en: boolean = true) {
     let t = get_Reg_lux(APDS9960_ENABLE)
-    t &= 0B00010001
+    t &= 0B11110001
     if (en) t |= 5
     set_Reg_lux(APDS9960_ENABLE, t)
     basic.pause(3)
