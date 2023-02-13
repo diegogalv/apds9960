@@ -25,7 +25,7 @@ const APDS9960_BDATAH = 0x9B
    * set APDS9960's reg
    */
 function set_Reg_lux(reg: number, dat: number): void {
-    _wbuf[0] = reg;
+    _wbuf[0] = reg | 0x80;
     _wbuf[1] = dat;
     pins.i2cWriteBuffer(APDS9960_ADDRESS, _wbuf);
 }
@@ -120,7 +120,7 @@ namespace CIP_APDS9960 {
             illuminance = illuminance / 255
             Math.abs(illuminance)
         }
-    return illuminance
+    return l
 
     }
 }
