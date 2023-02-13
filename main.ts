@@ -30,8 +30,8 @@ const APDS9960_BDATAH = 0x9B
    */
 function set_Reg_lux(reg: number, dat: number): void {
     let _wbuf = pins.createBuffer(2);
-    _wbuf[0] = reg;
-    _wbuf[1] = dat;
+    _wbuf[0] = dat;
+    _wbuf[1] = reg;
     pins.i2cWriteBuffer(APDS9960_ADDRESS, _wbuf);
 }
 
