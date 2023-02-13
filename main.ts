@@ -48,6 +48,12 @@ function get2Reg_lux(reg: number): number {
     return pins.i2cReadNumber(APDS9960_ADDRESS, NumberFormat.UInt16BE);
 }
 
+function get_final(reg: number): number {
+    pins.i2cWriteNumber(APDS9960_ADDRESS, reg, NumberFormat.UInt8BE);
+    basic.pause(3)
+    return pins.i2cReadNumber(APDS9960_ADDRESS, NumberFormat.UInt16LE);
+}
+
 
 function PowerOn() {
     let t = get2Reg_lux(APDS9960_ENABLE)
@@ -96,12 +102,12 @@ namespace CIP_APDS9960 {
         let LH = get_Reg_lux(APDS9960_AILTH);
         let HL = get_Reg_lux(APDS9960_AIHTL);
         let l = get_Reg_lux(APDS9960_STATUS);
-        let c = get_Reg_lux(APDS9960_CDATAH);
+        let c = get_final(APDS9960_CDATAL);
         basic.pause(10)
         if ((c >= TH + LH) || (c <= TL + HL)) {
-            let r = get_Reg_lux(APDS9960_RDATAH);
-            let g = get_Reg_lux(APDS9960_GDATAH);
-            let b = get_Reg_lux(APDS9960_BDATAH);
+            let r = get_final(APDS9960_RDATAL);
+            let g = get_final(APDS9960_GDATAL);
+            let b = get_final(APDS9960_BDATAL);
             illuminance = (-0.32466 * r) + (1.57837 * g) + (-0.73191 * b);
             illuminance = illuminance / 255
             Math.abs(illuminance)
