@@ -70,6 +70,7 @@ function PowerOff() {
     let t = get_Reg_lux(APDS9960_ENABLE)
     t &= 0xFE
     set_Reg_lux(APDS9960_ENABLE, t)
+    basic.pause(3)
 }
 
 
@@ -78,6 +79,7 @@ function ALSEnable(en: boolean = true) {
     t &= 0x13
     if (en) t |= 19
     set_Reg_lux(APDS9960_ENABLE, t)
+    basic.pause(3)
 }
 
 function GAIN(en: boolean = true) {
@@ -85,6 +87,7 @@ function GAIN(en: boolean = true) {
     t &= 0xFD
     if (en) t |= 2
     set_Reg_lux(APDS9960_CONTROL, t)
+    basic.pause(3)
 }
 
 
@@ -93,6 +96,7 @@ function PERS_REG(en: boolean = true) {
     t &= 0x02
     if (en) t |= 1
     set_Reg_lux(APDS9960_PERS, t)
+    basic.pause(3)
 }
 
 function init_apds() {
@@ -107,11 +111,11 @@ function init_apds() {
     //setReg(APDS9930_PPULSE, 8)
     //setReg(APDS9960_CONTROL, 0x2C)
     basic.pause(10)
-    PERS_REG(true)
+    PERS_REG()
     basic.pause(10)
-    GAIN(true);
+    GAIN();
     basic.pause(10)
-    ALSEnable(true)
+    ALSEnable()
     basic.pause(10)
     PowerOn();
     //WaitEnable(true)
