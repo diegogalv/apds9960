@@ -26,7 +26,7 @@ const APDS9960_BDATAH = 0x9B
 
 
 /**
-   * set APDS9930's reg
+   * set APDS9960's reg
    */
 function setReg(reg: number, dat: number): void {
     let _wbuf = pins.createBuffer(2);
@@ -70,23 +70,14 @@ function ATIME(v: number) {
     setReg(APDS9960_ATIME, v);
 }
 
-/**
- * Power Off
- */
-//% blockId="APDS9930_OFF" block="Power Off"
-//% weight=80 blockGap=8
+
 function PowerOff() {
     let t = getReg(APDS9960_ENABLE)
     t &= 0xFE
     setReg(APDS9960_ENABLE, t)
 }
 
-/**
- * ALS Enable
- * @param en is enable/disable ALS, eg: true
- */
-//% blockId="APDS9930_ALS_ENABLE" block="ALS Enable %en"
-//% weight=120 blockGap=8
+
 function ALSEnable(en: boolean = true) {
     let t = getReg(APDS9960_ENABLE)
     t &= 0x13
@@ -102,10 +93,6 @@ function GAIN(en: boolean = true) {
 }
 
 
-/**
- * Wait Enable
- * @param en is enable/disable wait timer, eg: true
- */
 function PERS_REG(en: boolean = true) {
     let t = getReg(APDS9960_PERS)
     t &= 0x02
@@ -134,6 +121,7 @@ function init() {
     PowerOn();
     //WaitEnable(true)
 }
+
 //% color=#4c6ef5 weight=25 icon="\uf043" block="SHT3x Sensor"
 namespace CIP_APDS9960 {
     let illuminance = 0
