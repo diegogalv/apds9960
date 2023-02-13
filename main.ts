@@ -29,7 +29,6 @@ const APDS9960_BDATAH = 0x9B
    * set APDS9960's reg
    */
 function set_Reg_lux(reg: number, dat: number): void {
-    
     _wbuf[0] = reg;
     _wbuf[1] = dat;
     pins.i2cWriteBuffer(APDS9960_ADDRESS, _wbuf);
@@ -72,7 +71,7 @@ function PowerOn() {
 function ALSEnable(en: boolean = true) {
     let t = get_Reg_lux(APDS9960_ENABLE)
     t &= 0B11110001
-    if (en) t |= 12
+    if (en) t |= 19
     set_Reg_lux(APDS9960_ENABLE, t)
     basic.pause(3)
 }
