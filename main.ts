@@ -141,7 +141,7 @@ namespace CIP_APDS9960 {
         let TH = get2Reg_lux(APDS9960_AIHTH);
         let LH = get2Reg_lux(APDS9960_AILTH);
         let HL = get2Reg_lux(APDS9960_AIHTL);
-        let l = get2Reg_lux(APDS9960_ENABLE);
+        let l = get2Reg_lux(APDS9960_STATUS);
         let c = get2Reg_lux(APDS9960_CDATAL);
         basic.pause(10)
         if ((c >= TH + LH) || (c <= TL + HL)) {
