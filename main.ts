@@ -114,12 +114,12 @@ namespace CIP_APDS9960 {
         let LH = get2Reg_lux(APDS9960_AILTH);
         let HL = get2Reg_lux(APDS9960_AIHTL);
         let l = get2Reg_lux(APDS9960_STATUS);
-        let c = get2Reg_lux(APDS9960_CDATAH);
+        let c = get2Reg_lux(APDS9960_CDATAL);
         basic.pause(10)
         if ((c >= TH + LH) || (c <= TL + HL)) {
-            let r = get2Reg_lux(APDS9960_RDATAH);
-            let g = get2Reg_lux(APDS9960_GDATAH);
-            let b = get2Reg_lux(APDS9960_BDATAH);
+            let r = get2Reg_lux(APDS9960_RDATAL);
+            let g = get2Reg_lux(APDS9960_GDATAL);
+            let b = get2Reg_lux(APDS9960_BDATAL);
             illuminance = (-0.32466 * r) + (1.57837 * g) + (-0.73191 * b);
             illuminance = illuminance / 255
             Math.abs(illuminance)
