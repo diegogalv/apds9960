@@ -124,7 +124,7 @@ namespace CIP_APDS9960 {
             illuminance = illuminance / 255
             Math.abs(illuminance)
         }
-    return l
+    return illuminance
 
     }
 }
