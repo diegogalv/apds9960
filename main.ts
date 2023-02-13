@@ -97,12 +97,12 @@ function PERS_REG(en: boolean = true) {
 function init_apds() {
     //ATIME(256 - 8)
     //setReg(APDS9960_ENABLE, 0)
-    set_Reg_lux(APDS9960_ATIME, 0xFF)
+   // set_Reg_lux(APDS9960_ATIME, 0xFF)
     basic.pause(10)
-    set_Reg_lux(APDS9960_WTIME, 0xFF)
+    //set_Reg_lux(APDS9960_WTIME, 0xFF)
     //setReg(APDS9960_PERS, 0x22)
     basic.pause(10)
-    set_Reg_lux(APDS9960_CONFIG1, 0X40)
+    //set_Reg_lux(APDS9960_CONFIG1, 0X40)
     //setReg(APDS9930_PPULSE, 8)
     //setReg(APDS9960_CONTROL, 0x2C)
     //basic.pause(10)
@@ -110,7 +110,7 @@ function init_apds() {
     basic.pause(10)
     GAIN();
     //basic.pause(10)
-    ALSEnable()
+    ALSEnable(true)
     basic.pause(10)
     PowerOn();
     //WaitEnable(true)
@@ -143,7 +143,7 @@ namespace CIP_APDS9960 {
             illuminance = illuminance / 255
             if (illuminance < 0) illuminance = Math.abs(illuminance)
         }
-    return illuminance
+    return l
 
     }
 }
