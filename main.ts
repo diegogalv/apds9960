@@ -100,17 +100,14 @@ function init_apds() {
     basic.pause(10)
     set_Reg_lux(APDS9960_WTIME, 0xFF)
     //setReg(APDS9960_PERS, 0x22)
-    basic.pause(10)
     //set_Reg_lux(APDS9960_CONFIG1, 0X40)
     //setReg(APDS9930_PPULSE, 8)
     //setReg(APDS9960_CONTROL, 0x2C)
     //basic.pause(10)
     //PERS_REG()
     //basic.pause(10)
-    GAIN();
-    basic.pause(10)
-    ALSEnable()
-    basic.pause(10)
+    GAIN(true);
+    ALSEnable(true)
     PowerOn();
     //WaitEnable(true)
 }
@@ -132,7 +129,7 @@ namespace CIP_APDS9960 {
         let LH = get2Reg_lux(APDS9960_AILTH);
         let HL = get2Reg_lux(APDS9960_AIHTL);
         let l = get2Reg_lux(APDS9960_STATUS);
-        let c = get2Reg_lux(APDS9960_CDATAH);
+        let c = get2Reg_lux(APDS9960_GDATAH);
         basic.pause(10)
         if ((c >= TH + LH) || (c <= TL + HL)) {
             let r = get2Reg_lux(APDS9960_RDATAL);
