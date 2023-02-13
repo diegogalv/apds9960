@@ -133,9 +133,9 @@ namespace CIP_APDS9960 {
             let b = get2Reg_lux(APDS9960_BDATAH);
             illuminance = (-0.32466 * r) + (1.57837 * g) + (-0.73191 * b);
             illuminance = illuminance / 255
-            if (illuminance < 0) illuminance = Math.abs(illuminance)
+            Math.abs(illuminance)
         }
-    return illuminance
+    return l
 
     }
 }
