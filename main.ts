@@ -61,9 +61,10 @@ function get2Reg_lux(reg: number): number {
 }
 
 
-function PowerOn() {
+function PowerOn(en: boolean = true) {
     let t = get_Reg_lux(APDS9960_ENABLE)
-    t |= 1
+    t &= 0xFF
+    if (en) t |= 1
     set_Reg_lux(APDS9960_ENABLE, t)
     basic.pause(3)
 }
