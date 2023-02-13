@@ -58,16 +58,11 @@ function get2Reg(reg: number): number {
 }
 
 
-
 function PowerOn() {
     let t = getReg(APDS9960_ENABLE)
     t |= 1
     setReg(APDS9960_ENABLE, t)
     basic.pause(3)
-}
-
-function ATIME(v: number) {
-    setReg(APDS9960_ATIME, v);
 }
 
 
@@ -122,7 +117,7 @@ function init() {
     //WaitEnable(true)
 }
 
-//% color=#4c6ef5 weight=25 icon="\uf043" block="SHT3x Sensor"
+//% color=#4c6ef5 weight=25 icon="\uf043" block="APDS9960"
 namespace CIP_APDS9960 {
     let illuminance = 0
     init();
